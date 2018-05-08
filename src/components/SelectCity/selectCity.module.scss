@@ -1,0 +1,30 @@
+.block {
+  display: flex;
+  flex-basis: 100%;
+  padding: 20px;
+  font-size: 16px;
+  font-family: sans-serif;
+  align-items: center;
+}
+
+.label {
+  flex-basis: 40%;
+  font-weight: bold;
+}
+
+.select {
+  flex-basis: 60%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  outline: none;
+
+  &:focus {
+    border: 1px solid #3d629e;
+    box-shadow: inset 0 0 5px darken(#3d629e, 15%);
+    transition: border ease 1s, box-shadow ease-in 0.5s;
+  }
+}
+

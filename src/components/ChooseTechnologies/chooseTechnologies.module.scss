@@ -1,0 +1,26 @@
+.block {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.checkboxItem {
+  display: inline-block;
+  margin: 0 5px 5px 0;
+  padding: 5px;
+  background: lighten(#3d629e, 25%);
+  border: 1px solid lighten(#3d629e, 25%);
+  border-radius: 5px;
+}
+
+.blockLabel {
+  flex-basis: 100%;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.label {
+  margin-left: 5px;
+}

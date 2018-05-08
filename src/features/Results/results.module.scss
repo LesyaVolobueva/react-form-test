@@ -1,0 +1,24 @@
+.stateItem {
+  display: flex;
+  padding: 15px 20px;
+  border-bottom: 1px solid #3d629e;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    box-shadow: 1px -1px 5px darken(#3d629e, 5%);
+    border-bottom: 1px solid darken(#3d629e, 20%);
+    transition: border-bottom ease-in-out 1s, box-shadow ease 1s;
+  }
+}
+
+.stateLabel {
+  flex-basis: 30%;
+  font-weight: bold;
+}
+
+.stateValue {
+  flex-basis: 70%;
+}

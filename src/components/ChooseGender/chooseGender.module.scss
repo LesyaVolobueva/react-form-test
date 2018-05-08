@@ -1,0 +1,22 @@
+.block {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.radioItem {
+  margin: auto;
+}
+
+.blockLabel {
+  flex-basis: 100%;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.label {
+  margin-left: 10px;
+}
