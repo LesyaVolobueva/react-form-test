@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styles from './form.module.scss';
 import Field from '../../components/Field';
 import ChooseGender from '../../components/ChooseGender';
@@ -10,111 +10,8 @@ import Results from '../Results';
 
 
 class Form extends React.Component {
-  state = {
-    user: {
-      name: '',
-      email: '',
-      gender: 'female',
-      city: 'Kyiv',
-      technologies: '',
-    },
-    errors: {},
-    showData: null,
-  };
-
-  componentWillMount() {
-    this.setState({
-      user: {
-        ...this.state.user,
-        birthday: this.getDate(),
-      },
-    });
-  }
-
-  changeTechnologies = (name, value) => {
-    const list = this.state.user[name]
-      ? this.state.user[name].split(', ')
-      : [];
-
-    if (list.includes(value)) {
-      return list.filter(item => item !== value).join(', ');
-    }
-    return [...list, value].join(', ');
-  };
-
-  inputOnChange = (event) => {
-    const { name, value, type } = event.target;
-
-    if (type !== 'checkbox') {
-      this.setState({
-        user: {
-          ...this.state.user,
-          [name]: value,
-        },
-      });
-    } else {
-      this.setState({
-        user: {
-          ...this.state.user,
-          [name]: this.changeTechnologies(name, value),
-        },
-      });
-    }
-  };
-
-  getDate = () => {
-    const date = new Date();
-    let day = date.getDate();
-    day = day > 10 ? `${day}` : `0${day}`;
-    let month = date.getMonth() + 1;
-    month = month > 10 ? `${month}` : `0${month}`;
-    const year = date.getFullYear();
-
-    return `${year}-${month}-${day}`;
-  };
-
-  validate = () => {
-    const errors = {};
-    const { name, email, birthday, technologies } = this.state.user;
-    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if(!name) {
-      errors.name = 'Enter the name';
-    } else if (!/^[a-z ,.'-]+$/i.test(name)) {
-      errors.name = 'invalid name';
-    }
-
-    if(!email) {
-      errors.email = 'Enter the email';
-    } else if (!emailRegex.test(email)) {
-      errors.email = 'invalid email';
-    }
-
-    if(!birthday) {
-      errors.birthday = 'Enter the birthday';
-    }
-
-    if(!technologies) {
-      errors.technologies = 'Choose the technologies';
-    }
-
-    this.setState({
-      errors,
-    });
-
-    return JSON.stringify(errors) === JSON.stringify({});
-  };
-
-  showState = () => {
-    if (this.validate()) {
-      this.setState({
-        showData: { ...this.state.user },
-      });
-    }
-  };
-
   render() {
-    const { user, showData, errors } = this.state;
+    const { user, showData, errors, inputOnChange, showState } = this.props;
 
     return (
       <div className={styles.container}>
@@ -124,7 +21,7 @@ class Form extends React.Component {
               error={errors.name}
               label='Your name'
               name='name'
-              onChange={this.inputOnChange}
+              onChange={inputOnChange}
               type='text'
               value={user.name}
             />
@@ -132,7 +29,7 @@ class Form extends React.Component {
               error={errors.email}
               label='Your email'
               name='email'
-              onChange={this.inputOnChange}
+              onChange={inputOnChange}
               type='text'
               value={user.email}
             />
@@ -140,26 +37,26 @@ class Form extends React.Component {
               error={errors.birthday}
               label='Your birthday'
               name='birthday'
-              onChange={this.inputOnChange}
+              onChange={inputOnChange}
               type='date'
               value={user.birthday}
             />
             <ChooseGender
               gender={user.gender}
-              onChange={this.inputOnChange}
+              onChange={inputOnChange}
             />
             <SelectCity
-              onChange={this.inputOnChange}
+              onChange={inputOnChange}
               value={user.city}
             />
             <ChooseTechnologies
               error={errors.technologies}
-              onChange={this.inputOnChange}
+              onChange={inputOnChange}
             />
 
             <div className={styles.btn}>
               <Button
-                onClick={this.showState}
+                onClick={showState}
                 type='button'
               >
                 Send
@@ -169,9 +66,9 @@ class Form extends React.Component {
         </div>
         <div className={styles.results}>
           {showData &&
-          <Results
-            user={showData}
-          />
+            <Results
+              user={showData}
+            />
           }
         </div>
 
@@ -179,5 +76,19 @@ class Form extends React.Component {
     );
   }
 }
+
+Form.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string,
+    birthday: PropTypes.string,
+    city: PropTypes.string,
+    gender: PropTypes.string,
+    technologies: PropTypes.string,
+  }),
+  showData: PropTypes.shape(Object),
+  errors: PropTypes.shape(Object),
+  inputOnChange: PropTypes.func,
+  showState: PropTypes.func,
+};
 
 export default Form;
